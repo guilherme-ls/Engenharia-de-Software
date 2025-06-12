@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QR Code Scanner</title>
+    <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
+    <style>
+        #video-container {
+            width: 100%;
+            max-width: 640px;
+            margin: 0 auto;
+        }
+        #qr-canvas {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="video-container">
+        <video id="video" playsinline></video>
+        <canvas id="qr-canvas"></canvas>
+        <div id="output">
+            <div id="outputMessage"></div>
+            <div id="outputData"></div>
+            <div id="expectedTreeNumber"></div>
+        </div>
+    </div>
+
+    <script>        
+        const video = document.getElementById('video');
+        const canvas = document.getElementById('qr-canvas');
+        const ctx = canvas.getContext('2d');
+        const outputMessage = document.getElementById('outputMessage');
+        const outputData = document.getElementById('outputData');
+        const expectedTreeNumber = document.getElementById('expectedTreeNumber');
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const numtree = urlParams.get('numtree');
+        expectedTreeNumber.innerText = numtree ? `Expected tree number: ${numtree}` : 'No tree number specified';
+
+        navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } })
+            .then(function(stream) {
+                video.srcObject = stream;
+                video.setAttribute('playsinline', true);
+                video.play();
+                requestAnimationFrame(tick);
+            });
+
+        function tick() {
+            if (video.readyState === video.HAVE_ENOUGH_DATA) {
+                canvas.height = video.videoHeight;
+                canvas.width = video.videoWidth;
+                ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                const code = jsQR(imageData.data, imageData.width, imageData.height);
+                
+                if (code) {
+                    const url = code.data;
+                    const treeRegex = /arvore\.php\?narvore=(\d+)/;
+                    const match = url.match(treeRegex);
+                    
+                    if (match && match[1]) {
+                        const treeNumber = match[1];
+                        outputData.innerText = `Tree Number: ${treeNumber}`;
+                        if (numtree && treeNumber === numtree) {
+                            alert("correct tree!");
+                            window.location.href = '/success';
+                        } else if (numtree) {
+                            alert("incorrect tree!");
+                        } else {
+                            outputMessage.innerText = "Tree QR Code Detected!";
+                        }
+                        console.log("Tree Number:", treeNumber);
+                    } else {
+                        outputData.innerText = code.data;
+                        outputMessage.innerText = "Non-tree QR Code Detected";
+                        console.log("QR Code Data:", code.data);
+                    }
+                } else {
+					outputMessage.innerText = "No QR code detected.";
+					console.log("No QR code detected.");
+                }
+            }
+            requestAnimationFrame(tick);
+        }
+    </script>
+</body>
+</html>
