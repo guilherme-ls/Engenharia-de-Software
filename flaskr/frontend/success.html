@@ -1,34 +1,68 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt">
 <head>
-    <title>Success!</title>
+    <meta charset="UTF-8">
+    <title>Árvore Encontrada</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/style.css">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f0f8f0;
+        .success-title {
+            color: #3d5c36;
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 10px;
         }
-        .success-container {
+        .comments {
+            color: #3d5c36;
+            font-size: 1.1rem;
+            margin-bottom: 18px;
             text-align: center;
-            padding: 2rem;
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
-        h1 {
-            color: #2ecc71;
+        .bottom-btns {
+            margin: 40px 0 0 0;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            align-items: center;
         }
     </style>
 </head>
 <body>
-    <div class="success-container">
-        <h1>🎉 Success! 🎉</h1>
-        <p>Congratulations! You've found the correct tree!</p>
-        <p><a href="/">Return to Home</a></p>
+    <div class="main-container">
+        <div class="header" id="arvores-encontradas">ÁRVORES ENCONTRADAS: 1</div>
+        <div class="card">
+            <div class="success-title" id="tree-name"></div>
+            <div class="comments" id="comments"></div>
+            <div class="bottom-btns" style="margin-top:auto;">
+                <button onclick="window.location.href='/hint'">Continuar Caça</button>
+                <button onclick="window.location.href='/'" style="background:#3d5c36;">Voltar ao Menu</button>
+            </div>
+        </div>
     </div>
+    <script>
+        // Atualiza o número de árvores encontradas
+        function updateArvoresEncontradas() {
+            let count = localStorage.getItem('arvores_encontradas');
+            if (!count) count = 1;
+            document.getElementById('arvores-encontradas').innerText = 'ÁRVORES ENCONTRADAS: ' + count;
+        }
+        updateArvoresEncontradas();
+
+        // Carrega nome e comentários da árvore encontrada
+        async function loadComments() {
+            const treeNumber = sessionStorage.getItem('selected_tree_number');
+            if (!treeNumber) return;
+            const res = await fetch('/api/tree_by_number/' + treeNumber);
+            const tree = await res.json();
+            if (tree.name) {
+                document.getElementById('tree-name').innerText = tree.name;
+            }
+            if (tree.comments && tree.comments.length > 0) {
+                document.getElementById('comments').innerHTML = tree.comments.map(c => `<div>${c}</div>`).join('');
+            }
+        }
+        loadComments();
+    </script>
 </body>
 </html>

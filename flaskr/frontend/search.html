@@ -1,41 +1,65 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt">
 <head>
-    <title>QR Code Scanner</title>
+    <meta charset="UTF-8">
+    <title>Caça à Árvore - Câmera</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
+    <link rel="stylesheet" href="/static/style.css">
     <style>
-        #video-container {
+        .camera-box {
+            background: #fff;
+            border-radius: 16px;
             width: 100%;
-            max-width: 640px;
-            margin: 0 auto;
+            max-width: 296px;
+            height: 296px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 18px;
+            margin-top: 0;
+            box-shadow: 0 1px 4px rgba(60,60,60,0.07);
         }
-        #qr-canvas {
-            display: none;
+        video {
+            width: 92%;
+            max-width: 272px;
+            height: 92%;
+            max-height: 272px;
+            border-radius: 12px;
+            object-fit: cover;
+            background: #e0e0e0;
+        }
+        .instruction {
+            color: #3d5c36;
+            font-size: 1.1rem;
+            margin-bottom: 18px;
+            text-align: center;
         }
     </style>
 </head>
 <body>
-    <div id="video-container">
-        <video id="video" playsinline></video>
-        <canvas id="qr-canvas"></canvas>
-        <div id="output">
-            <div id="outputMessage"></div>
-            <div id="outputData"></div>
-            <div id="expectedTreeNumber"></div>
+    <div class="main-container">
+        <div class="header">APONTE A CÂMERA PARA O QR-CODE</div>
+        <div class="card">
+            <div class="camera-box">
+                <video id="video" playsinline></video>
+                <canvas id="qr-canvas" style="display:none;"></canvas>
+            </div>
+            <div class="instruction">Aponte para o QR Code da árvore</div>
+            <div class="bottom-btn" style="margin-top:auto;">
+                <button onclick="window.location.href='/hint'">Voltar à Dica</button>
+            </div>
         </div>
     </div>
+    <script>
+        let found = false;
 
-    <script>        
+        // ...existing QR code logic...
         const video = document.getElementById('video');
         const canvas = document.getElementById('qr-canvas');
         const ctx = canvas.getContext('2d');
-        const outputMessage = document.getElementById('outputMessage');
-        const outputData = document.getElementById('outputData');
-        const expectedTreeNumber = document.getElementById('expectedTreeNumber');
-
         const urlParams = new URLSearchParams(window.location.search);
         const numtree = urlParams.get('numtree');
-        expectedTreeNumber.innerText = numtree ? `Expected tree number: ${numtree}` : 'No tree number specified';
 
         navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } })
             .then(function(stream) {
@@ -52,35 +76,29 @@
                 ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
                 const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
                 const code = jsQR(imageData.data, imageData.width, imageData.height);
-                
-                if (code) {
+
+                console.log('QR Code detected:', code);
+
+                if (code && !found) {
                     const url = code.data;
                     const treeRegex = /arvore\.php\?narvore=(\d+)/;
                     const match = url.match(treeRegex);
-                    
+
                     if (match && match[1]) {
                         const treeNumber = match[1];
-                        outputData.innerText = `Tree Number: ${treeNumber}`;
+                        found = true;
                         if (numtree && treeNumber === numtree) {
-                            alert("correct tree!");
+                            // Incrementa o número de árvores encontradas
+                            let count = parseInt(localStorage.getItem('arvores_encontradas') || '0', 10);
+                            localStorage.setItem('arvores_encontradas', count + 1);
                             window.location.href = '/success';
                         } else if (numtree) {
-                            alert("incorrect tree!");
-                        } else {
-                            outputMessage.innerText = "Tree QR Code Detected!";
+                            window.location.href = '/incorrect';
                         }
-                        console.log("Tree Number:", treeNumber);
-                    } else {
-                        outputData.innerText = code.data;
-                        outputMessage.innerText = "Non-tree QR Code Detected";
-                        console.log("QR Code Data:", code.data);
                     }
-                } else {
-					outputMessage.innerText = "No QR code detected.";
-					console.log("No QR code detected.");
                 }
             }
-            requestAnimationFrame(tick);
+            if (!found) requestAnimationFrame(tick);
         }
     </script>
 </body>

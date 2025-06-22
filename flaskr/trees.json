@@ -1,0 +1,36 @@
+[
+  {
+    "number": 69,
+    "name": "Ipê do Bosque",
+    "hints": [
+      "PROCURE A MAIOR ÁRVORE DESTE BOSQUE, COM FOLHAS EM FORMA DE CORAÇÃO!",
+      "A ÁRVORE QUE PROCURA ESTÁ PRÓXIMA DE UM BANCO DE MADEIRA.",
+      "SUAS FLORES SÃO AMARELAS E FLORESCEM NA PRIMAVERA."
+    ],
+    "comments": [
+      "Esta árvore é conhecida por sua imponência e beleza.",
+      "Ela oferece sombra para quem descansa no banco próximo.",
+      "Durante a primavera, suas flores amarelas encantam o bosque."
+    ],
+    "coordinates": {
+      "lat": -20.561684,
+      "lng": -40.655981
+    }
+  },
+  {
+    "number": 1,
+    "name": "Flamboyant",
+    "hints": [
+      "Esta perto do predio central da ESALQ",
+      "Outra dica qualquer"
+    ],
+    "comments": [
+      "Ela e bonita",
+      "E legal"
+    ],
+    "coordinates": {
+      "lat": 11.111,
+      "lng": 22.222
+    }
+  }
+]

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title>Árvore Incorreta</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/style.css">
+    <style>
+        .incorrect-title {
+            color: #3d5c36;
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .hint-label {
+            color: #b7c8a1;
+            background: #3d5c36;
+            border-radius: 8px;
+            padding: 4px 16px;
+            font-size: 1rem;
+            margin-bottom: 14px;
+            font-weight: bold;
+        }
+        .hint {
+            color: #3d5c36;
+            font-size: 1.1rem;
+            margin-bottom: 18px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <div class="header" id="tree-name">ÁRVORE INCORRETA</div>
+        <div class="card">
+            <div class="hint-label" id="hint-label" style="cursor:pointer;" onclick="nextHint()">NOVA DICA &gt;</div>
+            <div class="hint" id="hint-text"></div>
+            <div class="bottom-btn" style="margin-top:auto;">
+                <button onclick="window.location.href='/search?numtree=' + (sessionStorage.getItem('selected_tree_number') || '')">Encontrei</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        let hints = [];
+        let hintIndex = 0;
+
+        function nextHint() {
+            if (hints.length === 0) return;
+            hintIndex = (hintIndex + 1) % hints.length;
+            document.getElementById('hint-text').innerText = hints[hintIndex];
+        }
+
+        async function loadTree() {
+            const treeNumber = sessionStorage.getItem('selected_tree_number');
+            if (!treeNumber) return;
+            const res = await fetch('/api/tree_by_number/' + treeNumber);
+            const tree = await res.json();
+            hints = tree.hints;
+            hintIndex = 0;
+            document.getElementById('hint-text').innerText = hints[hintIndex];
+            document.getElementById('tree-name').innerText = tree.name ? tree.name.toUpperCase() : "ÁRVORE INCORRETA";
+        }
+
+        loadTree();
+    </script>
+</body>
+</html>
