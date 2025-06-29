@@ -109,7 +109,18 @@
         }
 
         async function loadTree() {
-            const tree = await fetchRandomTreeAvoidingRecent();
+            // Only choose a new tree if there is no selected_tree_number in sessionStorage
+            let selectedTreeNumber = sessionStorage.getItem('selected_tree_number');
+            let tree;
+            if (!selectedTreeNumber) {
+                tree = await fetchRandomTreeAvoidingRecent();
+                selectedTreeNumber = tree.number;
+                sessionStorage.setItem('selected_tree_number', selectedTreeNumber);
+            } else {
+                // Fetch the tree by number
+                const res = await fetch('/api/tree_by_number/' + selectedTreeNumber);
+                tree = await res.json();
+            }
             hints = tree.hints;
             treeNumber = tree.number;
             hintIndex = 0;
@@ -117,7 +128,6 @@
             document.getElementById('search-btn').onclick = function() {
                 window.location.href = '/search?numtree=' + treeNumber;
             };
-            sessionStorage.setItem('selected_tree_number', treeNumber);
             treeCoords = await fetchTreeCoords(treeNumber);
             startProximityWatch(treeCoords, hasShownGeoAlert);
         }
