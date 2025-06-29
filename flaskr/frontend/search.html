@@ -81,7 +81,7 @@
 
                 if (code && !found) {
                     const url = code.data;
-                    const treeRegex = /arvore\.php\?narvore=(\d+)/;
+                    const treeRegex = /(\d+)/;
                     const match = url.match(treeRegex);
 
                     if (match && match[1]) {

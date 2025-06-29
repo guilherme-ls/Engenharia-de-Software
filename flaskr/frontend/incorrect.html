@@ -31,7 +31,7 @@
 </head>
 <body>
     <div class="main-container">
-        <div class="header" id="tree-name">ÁRVORE INCORRETA</div>
+        <div class="header">ÁRVORE INCORRETA</div>
         <div class="card">
             <div class="hint-label" id="hint-label" style="cursor:pointer;" onclick="nextHint()">NOVA DICA &gt;</div>
             <div class="hint" id="hint-text"></div>
@@ -39,15 +39,40 @@
                 <button onclick="window.location.href='/search?numtree=' + (sessionStorage.getItem('selected_tree_number') || '')">Encontrei</button>
             </div>
         </div>
+        <!-- Add the proximity bar below the card -->
+        <div id="proximity-container" style="width:88%;max-width:320px;display:flex;flex-direction:column;align-items:center;margin-top:18px;">
+            <div style="width:100%;">
+                <div style="width:100%;height:18px;background:#b7c8a1;border-radius:9px;overflow:hidden;">
+                    <div id="proximity-bar" style="height:100%;width:0%;background:linear-gradient(90deg,#2196f3,#f44336);transition:width 0.5s,background 0.5s;"></div>
+                </div>
+            </div>
+            <div style="margin-top:8px;color:#3d5c36;font-size:1.1rem;font-weight:bold;">Temperatura</div>
+        </div>
     </div>
+    <script src="/static/proximity.js"></script>
     <script>
         let hints = [];
         let hintIndex = 0;
+        let treeNumber = null;
+        let treeCoords = null;
+        let hasShownGeoAlert = { value: false };
 
         function nextHint() {
             if (hints.length === 0) return;
             hintIndex = (hintIndex + 1) % hints.length;
             document.getElementById('hint-text').innerText = hints[hintIndex];
+        }
+
+        async function fetchTreeCoords(numtree) {
+            if (!numtree) return;
+            const res = await fetch('/api/tree_by_number/' + numtree);
+            if (!res.ok) return;
+            const tree = await res.json();
+            if (tree.coordinates && typeof tree.coordinates.lat === "number" && typeof tree.coordinates.lng === "number") {
+                return { lat: tree.coordinates.lat, lng: tree.coordinates.lng };
+            } else {
+                return null;
+            }
         }
 
         async function loadTree() {
@@ -58,7 +83,8 @@
             hints = tree.hints;
             hintIndex = 0;
             document.getElementById('hint-text').innerText = hints[hintIndex];
-            document.getElementById('tree-name').innerText = tree.name ? tree.name.toUpperCase() : "ÁRVORE INCORRETA";
+            treeCoords = await fetchTreeCoords(treeNumber);
+            startProximityWatch(treeCoords, hasShownGeoAlert);
         }
 
         loadTree();

@@ -1,36 +1,107 @@
 [
   {
-    "number": 69,
-    "name": "Ipê do Bosque",
+    "number": 70,
+    "name": "Murta",
     "hints": [
-      "PROCURE A MAIOR ÁRVORE DESTE BOSQUE, COM FOLHAS EM FORMA DE CORAÇÃO!",
-      "A ÁRVORE QUE PROCURA ESTÁ PRÓXIMA DE UM BANCO DE MADEIRA.",
-      "SUAS FLORES SÃO AMARELAS E FLORESCEM NA PRIMAVERA."
+      "Tenho um lindo vaso pendurado em mim.",
+      "Estou próxima a bancos de pedra e vasos com cactos."
     ],
     "comments": [
       "Esta árvore é conhecida por sua imponência e beleza.",
-      "Ela oferece sombra para quem descansa no banco próximo.",
-      "Durante a primavera, suas flores amarelas encantam o bosque."
+      "Ela oferece sombra para quem descansa no banco próximo."
     ],
     "coordinates": {
-      "lat": -20.561684,
-      "lng": -40.655981
+      "lat": -22.007233,
+      "lng": -47.894020
     }
   },
   {
-    "number": 1,
-    "name": "Flamboyant",
+    "number": 449,
+    "name": "Limão Siciliano",
     "hints": [
-      "Esta perto do predio central da ESALQ",
-      "Outra dica qualquer"
+      "Possuo frutos amarelos e azedos.",
+      "Estou bem escondido."
     ],
     "comments": [
-      "Ela e bonita",
-      "E legal"
+      "Esta árvore é famosa por seus frutos cítricos."
     ],
     "coordinates": {
-      "lat": 11.111,
-      "lng": 22.222
+      "lat": -22.007245,
+      "lng": -47.893993
+    }
+  },
+  {
+    "number": 436,
+    "name": "Romã Americana",
+    "hints": [
+      "Possuo frutos vermelhos e suculentos.",
+      "Estou localizada perto de cactos subindo em uma parede."
+    ],
+    "comments": [
+      "Esta árvore é famosa por seus frutos cheios de sementes."
+    ],
+    "coordinates": {
+      "lat": -22.007427,
+      "lng": -47.893760
+    }
+  },
+  {
+    "number": 81,
+    "name": "Ipê Amarelo",
+    "hints": [
+      "Possuo flores amarelas e vistosas.",
+      "Estou localizada perto de grandes vasos de pedra."
+    ],
+    "comments": [
+      "Esta árvore é famosa por suas flores exuberantes."
+    ],
+    "coordinates": {
+      "lat": -22.007292,
+      "lng": -47.893865
+    }
+  },
+  {
+    "number": 61,
+    "name": "Palmeira Jerivá",
+    "hints": [
+      "Parece um coqueiro.",
+      "Estou próxima ao prédio rosa."
+    ],
+    "comments": [
+      "Esta árvore é bem alta."
+    ],
+    "coordinates": {
+      "lat": -22.007381,
+      "lng": -47.894050
+    }
+  },
+  {
+    "number": 52,
+    "name": "Araucária",
+    "hints": [
+      "Sou o símbolo de São Carlos."
+    ],
+    "comments": [
+      "Esta árvore é bem alta."
+    ],
+    "coordinates": {
+      "lat": -22.0076074,
+      "lng": -47.8941967
+    }
+  },
+  {
+    "number": 54,
+    "name": "Sibipuruna",
+    "hints": [
+      "Estou próxima à entrada.",
+      "Tenho cipós subindo em mim."
+    ],
+    "comments": [
+      "Esta árvore possui lindas folhas."
+    ],
+    "coordinates": {
+      "lat": -22.0078310,
+      "lng": -47.8942980
     }
   }
 ]
