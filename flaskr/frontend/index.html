@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <title>Iniciar Caça</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/style.css">
     <style>
         body {
             margin: 0;
@@ -78,13 +79,22 @@
 
 <body>
     <div class="main-container">
-        <div class="header">CAÇA À ÁRVORE</div>
-        <div style="margin: 48px 0 0 0; width: 100%; display: flex; justify-content: center;">
-            <img src="/static/image.png" alt="Logo do app Caça à Árvore"
-                style="max-width: 220px; width: 80%; border-radius: 18px; box-shadow: 0 2px 8px rgba(60,60,60,0.10); background: #F6E7CB;">
-        </div>
-        <div class="bottom-btn">
-            <button onclick="window.location.href='/hint'">Começar Caça</button>
+        <div class="header"></div>
+        <div class="card">
+            <div style="width: 100%; display: flex; justify-content: center; margin-bottom: 16px;">
+                <img src="/static/botaniquest.png" alt="Botaniquest Logo"
+                    style="max-width: 220px; width: 80%; border-radius: 18px; background: #F6E7CB;">
+            </div>
+            <div style="width: 100%; display: flex; justify-content: center;">
+                <img src="/static/image.png" alt="Logo do app Caça à Árvore"
+                    style="max-width: 220px; width: 80%; border-radius: 18px; background: #F6E7CB;">
+            </div>
+            <div class="bottom-btn">
+                <button onclick="window.location.href='/hint'">Começar Caça</button>
+            </div>
+            <div style="width:100%;display:flex;justify-content:center;margin:24px 0 0 0;">
+                <img src="/static/logos.png" alt="Logos" style="max-width:220px;width:80%;border-radius:18px;background:#F6E7CB;">
+            </div>
         </div>
     </div>
 </body>
