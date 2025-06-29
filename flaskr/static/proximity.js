@@ -29,7 +29,7 @@ function interpolateColor(distance, minDistance, maxDistance) {
 }
 
 function updateProximityBar(distance, userLat, userLng, treeLat, treeLng) {
-    const maxDistance = 100;
+    const maxDistance = 30;
     const minDistance = 5;
     let percent;
     if (distance <= minDistance) {
