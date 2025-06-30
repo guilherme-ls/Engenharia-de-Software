@@ -35,7 +35,7 @@
             <div class="success-title" id="tree-name"></div>
             <div class="comments" id="comments"></div>
             <div class="bottom-btns" style="margin-top:auto;">
-                <button onclick="window.location.href='/hint'">Continuar Caça</button>
+                <button id="continue-btn">Continuar Caça</button>
                 <button onclick="window.location.href='/'" style="background:#3d5c36;">Voltar ao Menu</button>
             </div>
         </div>
@@ -63,6 +63,12 @@
             }
         }
         loadComments();
+
+        // Ao clicar em "Continuar Caça", limpe a árvore selecionada antes de ir para hint
+        document.getElementById('continue-btn').onclick = function() {
+            sessionStorage.removeItem('selected_tree_number');
+            window.location.href = '/hint';
+        };
     </script>
 </body>
 </html>
